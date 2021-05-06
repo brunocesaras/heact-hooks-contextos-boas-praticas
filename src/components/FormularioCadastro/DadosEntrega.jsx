@@ -1,23 +1,58 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { TextField, Button } from '@material-ui/core';
 
-function DadosEntrega(){
+function DadosEntrega({aoEnviarDE}){
+  const [cep, setCep] = useState("");
+  const [endereco, setEndereco] = useState("");
+  const [numero, setNumero] = useState("");
+  const [estado, setEstado] = useState("");
+  const [cidade, setCidade] = useState("");
+
+console.log(aoEnviarDE);
   return(
-    <form>
-      <TextField id= "cep" label="CEP" type="number"
+    <form onSubmit={ (event) => {
+        event.preventDefault();
+        aoEnviarDE({cep, endereco, numero, estado, cidade})
+      }}>
+      <TextField onChange={
+          (event) => {
+            setCep(event.target.value);
+          }
+        }
+        value={cep} id= "cep" label="CEP" type="number"
         variant="outlined"
         margin="normal"/>
-      <TextField id= "endereco" label="Endereco" type="text"
+      <TextField onChange={
+          (event) => {
+            setEndereco(event.target.value);
+          }
+        }
+        value={endereco} id= "endereco" label="Endereco" type="text"
         variant="outlined"
         margin="normal"
         fullWidth />
-      <TextField id= "numero" label="Numero" type="number"
+      <TextField onChange={
+          (event) => {
+            setNumero(event.target.value);
+          }
+        }
+        value={numero} id= "numero" label="Numero" type="number"
         variant="outlined"
         margin="normal" />
-      <TextField id= "estado" label="Estado" type="text"
+      <TextField onChange={
+          (event) => {
+            setEstado(event.target.value);
+          }
+        }
+        value={estado} id= "estado" label="Estado" type="text"
         variant="outlined"
         margin="normal" />
-      <TextField id= "cidade" label="Cidade" type="text"
+      <TextField onChange={
+          (event) => {
+            setCidade(event.target.value);
+          }
+        }
+        value={cidade} id= "cidade" label="Cidade" type="text"
         variant="outlined"
         margin="normal" />
 

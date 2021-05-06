@@ -3,16 +3,15 @@ import DadosPessoais from './DadosPessoais';
 import DadosUsuario from './DadosUsuario';
 import DadosEntrega from './DadosEntrega';
 
-import { Typography } from '@material-ui/core';
-
 
 function FormularioCadastro( {aoEnviar, validarCPFProps} ){
 
+  console.log(aoEnviar);
   const [etapaAtual, setEtapaAtual] = useState(0);
 
   const formularios = [ <DadosUsuario aoEnviarDU={proximo}/>,
     <DadosPessoais aoEnviar={proximo} validarCPFProps2={validarCPFProps}/>,
-    <DadosEntrega />
+    <DadosEntrega aoEnviarDE={aoEnviar}/>
   ]
 
   function proximo(){
