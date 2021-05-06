@@ -10,32 +10,18 @@ function FormularioCadastro( {aoEnviar, validarCPFProps} ){
 
   const [etapaAtual, setEtapaAtual] = useState(0);
 
-  function formularioAtual(etapa){
+  const formularios = [ <DadosUsuario aoEnviarDU={proximo}/>,
+    <DadosPessoais aoEnviar={proximo} validarCPFProps2={validarCPFProps}/>,
+    <DadosEntrega />
+  ]
 
-    switch (etapa) {
-      case 0:
-        return (
-          <DadosUsuario />
-        );
-      case 1:
-        return (
-          <DadosPessoais aoEnviar={aoEnviar} validarCPFProps2={validarCPFProps}/>
-        );
-      case 2:
-        return(
-          <DadosEntrega />
-        );
-      break;
-      default:
-      return(
-        <Typography>Erro ao selecionar renderização</Typography>
-      );
-    }
+  function proximo(){
+    setEtapaAtual(etapaAtual+1);
   }
 
   return (
     <>
-      {formularioAtual(etapaAtual)}
+      {formularios[etapaAtual]}
     </>
   );
 }
