@@ -1,0 +1,227 @@
+aula 1
+
+material-ui é uma biblioteca para prototipação para que não perca tanto tempo
+componentizando o css.
+
+material-ui é um design system
+
+
+
+O que aprendemos nessa aula:
+
+    Como criar um Funcition Component e quais suas as diferenças dele com um Class Component
+
+    Instalando pacotes via NPM no nosso projeto
+
+    Vantagens de se usar o MaterialUI
+
+    Por que usar um design system pronto facilita nossa vida
+
+
+
+aula 2 - utilizando o material UI
+
+O que aprendemos nessa aula:
+
+    Como se encontrar na documentação do Material UI
+
+    Como utilizar diversos componentes com o MaterialUI
+
+    Mais propriedades do TextField
+
+    Como utilizar um container para ajudar a posição dos elementos
+
+    Utilizando elementos de tipografia
+
+    MaterialUI Switchs e FormLabelControl
+
+
+aula 3
+
+Formulário não controlado é o que o react não está controlando as ações do formulário,
+mas sim o html.
+
+dessa forma, um evento atribuido a um input do html por exemplo, pode pelo react limitar o numero de letras
+do input a 3, porem no html vai aceitar uma entrada maior que 3.
+
+Assim, ficam 2 fontes de "verdade" disputando, sendo necessário implementar 2 controles.
+
+as variáveis são usadas para guardar estado da aplicação (?)
+
+codigo ex.:
+let nome = "";
+return (
+  <form onSubmit={ (event) => {
+      event.preventDefault();
+      console.log(nome);
+    }}>
+    <TextField onChange={
+        (event) => {
+        nome = event.target.value;
+        if(nome.length > 3){
+          nome = nome.substr(0,3);
+        }
+      }}
+
+o campo irá permitir a entrada de mais de 3 caracteres, porem no meu React
+o valor desse campo estará limitado a 3 caracteres,
+pois existem 2 fontes controlando, então é preciso inserir um state
+no react para controlar as alterações nesse campo.
+
+Isso permite um dessincronia entre o que o usuário vê, e o que é esperado de comportamento
+da minha página.
+
+
+aula 3 - forms e hooks
+
+
+O que aprendemos nessa aula:
+
+    O que é um formulário não controlado
+
+    Problemas com mais de uma fonte de verdade
+
+    Hooks e o useState
+
+    Desconstrução de Arrays
+
+    Assincronicidade da função de atribuição do estado
+
+
+hooks
+
+useState é um hook.
+
+A mudança de estado nãoo deve ser uma coisa manual, feita diretamente, mas executada por uma função
+por isso o useState não devolve só o valor, retorna uma tupla ou um array de 2 elem.
+
+[variavel, função] = useState(novoValor)
+
+assim a função utiliza estado, e esse estado é gerenciado pelo react internamente.
+
+Com essa separação o React consegue fazer a sincronização entre as alterações de estado e o ciclo de vida do componente.
+
+Por isso que nunca devemos fazer a alteração do estado diretamente.
+
+[variavel, função] = useState(novoValor) equivale a declarar:
+
+const arr = useState("");
+const variavel = arr[0];
+const setVariavel = arr[1];
+
+porem é muito mais conciso o utilizado em 1 linha.
+
+
+  value={nome}
+  <TextField
+  onChange = { (event) => {
+      setNome(event.target.value);
+      if(nome.length >= 3){
+        setNome(nome.substr(0,3));
+      }
+  }}
+
+set são métodos assincronos
+
+dessa maneira não é possível apagar o texto do campo nome, quando esse campo já tem 3 letras.
+Devido a assincronicidade do react, ao setar o nome, e em seguida, acessar esse valor,
+a mudança ainda não se encontra refletida na variável.
+
+Então quando ele compara (if(nome.length >= 3) ) o valor de nome ainda tem 3 letras,
+e então ele seta de novo o campo nome com as 3 letras.
+
+aassim resolvemos:
+
+<TextField
+  value={nome}
+onChange = { (event) => {
+  let tmpNome = event.target.value;
+
+  if(tmpNome.length >= 3){
+    tmpNome = tmpNome.substr(0,3);
+
+  }
+  setNome(tmpNome);
+}}
+
+forçamos renderização uma única vez. Se estivessemos utilizando o setNome 2x,
+estariamos renderizando o componente 2x.
+
+aula 4 - regras dos hooks
+
+O que aprendemos nessa aula:
+
+    Quais são as Regras de utilização dos Hooks
+
+    Propriedade checked para Switchs
+
+    Criando mais estados e a maneira de trabalhar com eles em function components
+
+    Como receber propriedades em um componente de função
+
+    Desconstrução de Objetos no JS
+
+
+
+Usar hooks apenas no nível superior.
+evitar usar hooks dentro de loops, regras condicionais ou funções aninhadas
+(funções dentro de funções)
+
+
+2 coisas que fazem o function component ser um componente do react:
+
+ter um retorno (árvore de renderização, JSX);
+e o nome da função iniciar em maiúscula.
+
+
+O form não deve ficar engessado aos componentes do react. Senão a reusabilidade
+dos componentes perde o sentido.
+
+no class components os parametros para serem utilizados pela classe eram passados
+pelas props.
+
+nas function components, as props são passadas como parametros, e ai conseguimos
+utilizar da mesma forma.
+
+para evitar a repetição de props dentro do código, ja que atraves de props, o mesmo precisaria
+sempre ser referenciado para chamar os valores que ele utiliza, fazemos a descontrução do mesmo.
+
+assim, o código:
+
+function FormularioCadastro( props ){ (...) }
+
+form onSubmit={ (event) => {
+    event.preventDefault();
+    props.aoEnviar({nome, sobrenome, cpf, promocoes, novidades});
+  }}>
+
+fica melhor escrito e mais funcional:
+
+function FormularioCadastro( {aoEnviar} ){ (...) }
+
+form onSubmit={ (event) => {
+    event.preventDefault();
+    aoEnviar({nome, sobrenome, cpf, promocoes, novidades});
+  }}>
+
+  quando mais de um props é recebida:
+
+  function Nota({titulo, subtitulo}){...}
+
+
+aula 5 - tratamento de Erros
+
+O que aprendemos nessa aula:
+
+    Propriedade erro do TextField e HelperText dentro de inputs do MaterialUI
+
+    Usando o estado para controla a exibição de erros
+
+    Recebendo validação de maneira externa
+
+    Como deixar os componentes mais reutilizáveis
+
+
+
+a ideia é quem for utilizar o componente decidir o que fará com ele. Assim ele fica
+mais reutilizável.
