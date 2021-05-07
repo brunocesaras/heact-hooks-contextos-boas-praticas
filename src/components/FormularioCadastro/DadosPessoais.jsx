@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Button, TextField, Switch, FormControlLabel } from '@material-ui/core';
 
 
-function DadosPessoais( {aoEnviar, validarCPFProps2} ){
+function DadosPessoais( {aoEnviar, validacoesDP} ){
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [cpf, setCpf] = useState("");
@@ -47,7 +47,7 @@ function DadosPessoais( {aoEnviar, validarCPFProps2} ){
         }}
 
         onBlur={ (event) => {
-          setErros( {cpf: validarCPFProps2(cpf)});
+          setErros( {cpf: validacoesDP(cpf)});
         }}
         error={!erros.cpf.valido}
         helperText={erros.cpf.texto}
