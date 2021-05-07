@@ -19,10 +19,21 @@ function DadosPessoais( {aoEnviar, validarDP} ){
     setErros(novoEstado);
   }
 
+  function possoEnviar(){
+    for( let campo in erros ){
+      if(!erros[campo].valido){
+        return false;
+      }
+    }
+    return true;
+  }
+
   return (
     <form onSubmit={ (event) => {
         event.preventDefault();
-        aoEnviar({nome, sobrenome, cpf, promocoes, novidades});
+        if( possoEnviar() ){
+          aoEnviar({nome, sobrenome, cpf, promocoes, novidades});
+        }
       }}>
       <TextField
         value={nome}
@@ -30,6 +41,7 @@ function DadosPessoais( {aoEnviar, validarDP} ){
           let tmpNome = event.target.value;
           setNome(tmpNome);
         }}
+        name="nome"
         id="nome"
         label="Nome"
         variant="outlined"
@@ -41,6 +53,7 @@ function DadosPessoais( {aoEnviar, validarDP} ){
         onChange={ (event) => {
           setSobrenome(event.target.value);
         }}
+        name="sobrenome"
         id="sobenome"
         label="Sobrenome"
         variant="outlined"
@@ -55,8 +68,8 @@ function DadosPessoais( {aoEnviar, validarDP} ){
         onBlur={validarCampos}
         error={!erros.cpf.valido}
         helperText={erros.cpf.texto}
-        id="cpf"
         name="cpf"
+        id="cpf"
         label="CPF"
         variant="outlined"
         margin="normal"
@@ -80,7 +93,7 @@ function DadosPessoais( {aoEnviar, validarDP} ){
         name="novidades"
         color="primary"/>} />
 
-      <Button type="submit" variant="contained" color="primary">Cadastrar</Button>
+      <Button type="submit" variant="contained" color="primary">Próximo</Button>
 
     </form>
   );

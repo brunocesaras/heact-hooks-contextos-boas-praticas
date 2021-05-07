@@ -9,32 +9,47 @@ function DadosUsuario({aoEnviarDU, validacoesDU}){
     senha: { valido: true, texto: "" }
   });
 
+  function validarCampos(event){
+    const{name, value} = event.target;
+    const novoEstado = {...erros};
+    novoEstado[name] = validacoesDU[name](value);
+    setErros(novoEstado);
+  }
+
+  function possoEnviar(){
+    for( let campo in erros ){
+      if(!erros[campo].valido){
+        return false;
+      }
+    }
+    return true;
+  }
+
   return (
     <form onSubmit={ (event) => {
           event.preventDefault();
-          aoEnviarDU({email, senha});
+          if( possoEnviar() ){
+            aoEnviarDU({email, senha});
+          }
         }}>
       <TextField onChange={ (event) => {
           setEmail(event.target.value);
         }}
-        id= "email" label="email" type="email" required
+        name="email" id= "email" label="email" type="email" required
         variant="outlined"
         margin="normal"
         fullWidth/>
       <TextField onChange={ (event) => {
           setSenha(event.target.value);
         }}
-        onBlur={ (event) => {
-          setErros( {senha: validacoesDU.senha(event.target.value)} );
-        }}
+        onBlur={validarCampos}
         error={!erros.senha.valido}
         helperText={erros.senha.texto}
-
-        id="senha" label="senha" type="password" required
+        name="senha" id="senha" label="senha" type="password" required
         variant="outlined"
         margin="normal"
         fullWidth/>
-      <Button type="submit" variant="contained" color="primary">Cadastrar</Button>
+      <Button type="submit" variant="contained" color="primary">Próximo</Button>
     </form>
   );
 }
