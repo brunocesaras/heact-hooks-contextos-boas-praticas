@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import { Button, TextField, Switch, FormControlLabel } from '@material-ui/core';
 
 
-function DadosPessoais( {aoEnviar, validacoesDP} ){
+function DadosPessoais( {aoEnviar, validarDP} ){
   const [nome, setNome] = useState("");
   const [sobrenome, setSobrenome] = useState("");
   const [cpf, setCpf] = useState("");
@@ -11,6 +11,13 @@ function DadosPessoais( {aoEnviar, validacoesDP} ){
   const [erros, setErros] = useState({
     cpf: {valido:true, texto:""}
   });
+
+  function validarCampos(event){
+    const{name, value} = event.target;
+    const novoEstado = {...erros};
+    novoEstado[name] = validarDP[name](value);
+    setErros(novoEstado);
+  }
 
   return (
     <form onSubmit={ (event) => {
@@ -45,13 +52,11 @@ function DadosPessoais( {aoEnviar, validacoesDP} ){
         onChange={ (event) => {
           setCpf(event.target.value);
         }}
-
-        onBlur={ (event) => {
-          setErros( {cpf: validacoesDP(cpf)});
-        }}
+        onBlur={validarCampos}
         error={!erros.cpf.valido}
         helperText={erros.cpf.texto}
         id="cpf"
+        name="cpf"
         label="CPF"
         variant="outlined"
         margin="normal"
