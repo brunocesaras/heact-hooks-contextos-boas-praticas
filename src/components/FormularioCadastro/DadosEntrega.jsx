@@ -8,7 +8,6 @@ function DadosEntrega({aoEnviarDE}){
   const [estado, setEstado] = useState("");
   const [cidade, setCidade] = useState("");
 
-console.log(aoEnviarDE);
   return(
     <form onSubmit={ (event) => {
         event.preventDefault();
