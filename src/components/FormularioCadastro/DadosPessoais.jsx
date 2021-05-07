@@ -9,6 +9,7 @@ function DadosPessoais( {aoEnviar, validarDP} ){
   const [promocoes, setPromocoes] = useState(true);
   const [novidades, setNovidades] = useState(false);
   const [erros, setErros] = useState({
+    nome: {valido: true, texto:""},
     cpf: {valido:true, texto:""}
   });
 
@@ -41,6 +42,10 @@ function DadosPessoais( {aoEnviar, validarDP} ){
           let tmpNome = event.target.value;
           setNome(tmpNome);
         }}
+
+        onBlur={validarCampos}
+        error={!erros.nome.valido}
+        helperText={erros.nome.texto}
         name="nome"
         id="nome"
         label="Nome"
