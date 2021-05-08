@@ -16,6 +16,7 @@ class App extends Component {
         <ValidacoesCadastro.Provider value={{cpf:validarCPF, senha:validarSenha, nome:validarSenha}}>
           <FormularioCadastro aoEnviar={aoEnviarForm}/>
         </ValidacoesCadastro.Provider>
+        <FormularioCadastro aoEnviar={aoEnviarForm}/>
       </Container>
     );
   }
